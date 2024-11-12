@@ -7,9 +7,10 @@ import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class OrdersService {
-
-  constructor(private readonly ordersRepository: OrderRepository,
-    @Inject(BILLING_SERVICE) private billingClient: ClientProxy) { }
+  constructor(
+    private readonly ordersRepository: OrderRepository,
+    @Inject(BILLING_SERVICE) private billingClient: ClientProxy,
+  ) {}
 
   async createOrder(request: CreateOrderRequest) {
     const session = await this.ordersRepository.startTransaction();
@@ -18,8 +19,8 @@ export class OrdersService {
       const order = await this.ordersRepository.create(request, { session });
       await lastValueFrom(
         this.billingClient.emit('order_created', {
-          request
-        })
+          request,
+        }),
       );
       await session.commitTransaction();
       return order;
@@ -30,6 +31,6 @@ export class OrdersService {
   }
 
   async getOrders() {
-    return this.ordersRepository.find({})
+    return this.ordersRepository.find({});
   }
 }

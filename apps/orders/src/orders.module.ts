@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 import { ConfigModule } from '@nestjs/config';
-import * as Joi from 'joi'
+import * as Joi from 'joi';
 import { DatabaseModule, RmqModule } from '@app/common';
 import { OrderRepository } from './order.repsitory';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -17,15 +17,15 @@ import { BILLING_SERVICE } from './constants/services';
         MONGODB_URI: Joi.string().required(),
         PORT: Joi.number().required(),
       }),
-      envFilePath: "./apps/orders/.env"
+      envFilePath: './apps/orders/.env',
     }),
     DatabaseModule,
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
     RmqModule.register({
-      name: BILLING_SERVICE
-    })
+      name: BILLING_SERVICE,
+    }),
   ],
   controllers: [OrdersController],
   providers: [OrdersService, OrderRepository],
 })
-export class OrdersModule { }
+export class OrdersModule {}
