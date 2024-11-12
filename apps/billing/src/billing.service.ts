@@ -7,4 +7,8 @@ export class BillingService {
   bill(data: any) {
     this.logger.log('Billing...', data);
   }
+
+  updateBill(data: any) {
+    this.logger.log('Updating bill...', data);
+  }
 }

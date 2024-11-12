@@ -3,9 +3,9 @@ import { SchemaTypes, Types } from 'mongoose';
 
 /**
  * Abstrakt sənəd sinfi.
- * 
+ *
  * @schema
- * 
+ *
  * @property {Types.ObjectId} _id - Sənədin unikal identifikatoru.
  */
 @Schema()

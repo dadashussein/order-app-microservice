@@ -9,6 +9,24 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Order, OrderSchema } from './schemas/orders.schema';
 import { BILLING_SERVICE } from './constants/services';
 
+/**
+ * @module OrdersModule
+ *
+ * Bu modul sifarişlər üçün əsas moduldur.
+ *
+ * @imports
+ * - ConfigModule: Konfiqurasiya modulu, qlobal olaraq istifadə olunur və .env faylından konfiqurasiya parametrlərini oxuyur.
+ * - DatabaseModule: Verilənlər bazası modulu.
+ * - MongooseModule: Mongoose modulu, sifarişlər üçün Mongoose sxemini qeydiyyatdan keçirir.
+ * - RmqModule: RabbitMQ modulu, BILLING_SERVICE üçün qeydiyyatdan keçirir.
+ *
+ * @controllers
+ * - OrdersController: Sifarişlər üçün kontroller.
+ *
+ * @providers
+ * - OrdersService: Sifarişlər üçün xidmət.
+ * - OrderRepository: Sifarişlər üçün repozitoriya.
+ */
 @Module({
   imports: [
     ConfigModule.forRoot({

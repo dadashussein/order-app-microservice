@@ -60,7 +60,6 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
    */
   async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
     const document = await this.model.findOne(filterQuery, {}, { lean: true });
-
     if (!document) {
       this.logger.warn('Document not found with filterquery', filterQuery);
       throw new NotFoundException('Document not found');
@@ -119,6 +118,42 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
    */
   async find(filterQuery: FilterQuery<TDocument>) {
     return this.model.find(filterQuery, {}, { lean: true });
+  }
+
+  /**
+   * Finds documents with pagination and sorting.
+   *
+   * @param filterQuery - The query to filter documents.
+   * @param options - Pagination and sorting options.
+   * @returns Paginated and sorted list of documents.
+   */
+  async findWithPagination(
+    filterQuery: FilterQuery<TDocument>,
+    options: { page?: number; limit?: number; sort?: any } = {},
+  ) {
+    const { page = 1, limit = 10, sort = {} } = options;
+    return this.model
+      .find(filterQuery)
+      .sort(sort)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+  }
+
+  /**
+   * Marks a document as deleted without actually removing it.
+   *
+   * @param filterQuery - The query to filter the document.
+   * @returns The updated document.
+   */
+  async softDelete(filterQuery: FilterQuery<TDocument>) {
+    const document = await this.model.deleteOne(filterQuery);
+    if (!document) {
+      this.logger.warn('Document not found', filterQuery);
+      throw new NotFoundException('DOcument not found');
+    }
+
+    return document;
   }
 
   /**

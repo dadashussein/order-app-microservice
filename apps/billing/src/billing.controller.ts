@@ -15,4 +15,10 @@ export class BillingController {
     this.billingService.bill(data);
     this.rmqService.ack(context);
   }
+
+  @EventPattern('order_updated')
+  async handleOrderUpdated(@Payload() data: any, @Ctx() context: RmqContext) {
+    this.billingService.updateBill(data);
+    this.rmqService.ack(context);
+  }
 }
