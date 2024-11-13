@@ -1,0 +1,8 @@
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "name":"Koynasek",
+  "price":22,
+  "phoneNumber":"+994706464303"
+}
